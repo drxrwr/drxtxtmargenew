@@ -45,11 +45,12 @@ mergeBtn.addEventListener("click", async () => {
   let mergedText = "";
   for (const file of filesArray) {
     const text = await file.text();
-    mergedText += text + "\n";
+    const cleaned = text.split("\n").filter(line => line.trim() !== "").join("\n");
+    mergedText += cleaned + "\n";
   }
 
   const filename = outputFileName.value.trim() || "gabungan";
-  const blob = new Blob([mergedText], { type: "text/plain" });
+  const blob = new Blob([mergedText.trim()], { type: "text/plain" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = filename + ".txt";
