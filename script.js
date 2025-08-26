@@ -1,3 +1,4 @@
+<script>
 let filesArray = [];
 
 const fileInput = document.getElementById("fileInput");
@@ -43,13 +44,24 @@ mergeBtn.addEventListener("click", async () => {
   }
 
   let mergedText = "";
+  let totalNumbers = 0;
+
   for (const file of filesArray) {
     const text = await file.text();
-    const cleaned = text.split("\n").filter(line => line.trim() !== "").join("\n");
-    mergedText += cleaned + "\n";
+    const cleaned = text
+      .split("\n")
+      .map(line => line.trim())
+      .filter(line => {
+        // buang spasi & strip untuk validasi
+        const justNumbers = line.replace(/[\s-]/g, "");
+        return /(\+?\d{10,})/.test(justNumbers);
+      });
+
+    mergedText += cleaned.join("\n") + "\n";
+    totalNumbers += cleaned.length;
   }
 
-  const filename = outputFileName.value.trim() || "gabungan";
+  const filename = outputFileName.value.trim() || `${totalNumbers}`;
   const blob = new Blob([mergedText.trim()], { type: "text/plain" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
@@ -64,3 +76,4 @@ resetBtn.addEventListener("click", () => {
   fileCount.textContent = "0 file dipilih";
   outputFileName.value = "";
 });
+</script>
