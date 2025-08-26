@@ -52,7 +52,7 @@ mergeBtn.addEventListener("click", async () => {
       .split("\n")
       .map(line => line.trim())
       .filter(line => {
-        // buang spasi & strip untuk validasi
+        // hapus spasi & strip untuk validasi nomor
         const justNumbers = line.replace(/[\s-]/g, "");
         return /(\+?\d{10,})/.test(justNumbers);
       });
@@ -61,6 +61,7 @@ mergeBtn.addEventListener("click", async () => {
     totalNumbers += cleaned.length;
   }
 
+  // kalau kosong → nama file = jumlah nomor valid
   const filename = outputFileName.value.trim() || `${totalNumbers}`;
   const blob = new Blob([mergedText.trim()], { type: "text/plain" });
   const link = document.createElement("a");
