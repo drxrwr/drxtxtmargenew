@@ -61,7 +61,7 @@ mergeBtn.addEventListener("click", async () => {
     totalNumbers += cleaned.length;
   }
 
-  // kalau kosong → nama file = jumlah nomor valid
+  // FIX: kalau kosong → nama file = jumlah nomor valid
   const filename = outputFileName.value.trim() || `${totalNumbers}`;
   const blob = new Blob([mergedText.trim()], { type: "text/plain" });
   const link = document.createElement("a");
